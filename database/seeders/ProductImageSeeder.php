@@ -10,8 +10,9 @@ class ProductImageSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run()
     {
-        //
+        \App\Models\ProductImage::factory()->count(40)->create();
     }
+
 }

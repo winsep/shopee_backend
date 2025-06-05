@@ -10,8 +10,9 @@ class OrderItemSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run()
     {
-        //
+        \App\Models\OrderItem::factory()->count(30)->create();
     }
+
 }

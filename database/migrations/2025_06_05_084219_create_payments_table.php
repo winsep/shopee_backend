@@ -17,7 +17,8 @@ return new class extends Migration
         $table->enum('payment_method', ['cod', 'shopeepay', 'bank_transfer']);
         $table->decimal('amount', 12, 2);
         $table->enum('payment_status', ['pending', 'completed', 'failed'])->default('pending');
-        $table->dateTime('paid_at')->nullable();
+        $table->dateTime('paid_at'); // hoặc tên cột khác tùy ý
+        $table->timestamps();
 
         $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
     });

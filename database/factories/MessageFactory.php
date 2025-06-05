@@ -5,19 +5,17 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Message>
+ * @extends Factory<\App\Models\Message>
  */
 class MessageFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    public function definition()
     {
         return [
-            //
+            'sender_id' => \App\Models\User::factory(),
+            'receiver_id' => \App\Models\User::factory(),
+            'message' => fake()->sentence(),
+            'is_read' => fake()->boolean(30), // 30% khả năng là đã đọc
         ];
     }
 }

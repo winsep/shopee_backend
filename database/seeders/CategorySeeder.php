@@ -10,8 +10,9 @@ class CategorySeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run()
     {
-        //
+        \App\Models\Category::factory()->count(5)->create();
     }
+
 }

@@ -5,19 +5,15 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductImage>
+ * @extends Factory<\App\Models\ProductImage>
  */
 class ProductImageFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    public function definition()
     {
         return [
-            //
+            'product_id' => \App\Models\Product::factory(), // Tạo product mới hoặc liên kết product hiện có
+            'image_url' => fake()->imageUrl(800, 600, 'products', true),
         ];
     }
 }

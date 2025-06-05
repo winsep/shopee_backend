@@ -10,8 +10,9 @@ class PaymentSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run()
     {
-        //
+        \App\Models\Payment::factory()->count(10)->create();
     }
+
 }

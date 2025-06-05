@@ -10,8 +10,9 @@ class ShippingSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run()
     {
-        //
+        \App\Models\Shipping::factory()->count(10)->create();
     }
+
 }

@@ -22,7 +22,7 @@ return new class extends Migration
         $table->date('end_date');
         $table->integer('usage_limit')->default(1);
         $table->integer('usage_count')->default(0);
-        $table->timestamp('created_at')->useCurrent();
+        $table->timestamps();
     });
 
     }

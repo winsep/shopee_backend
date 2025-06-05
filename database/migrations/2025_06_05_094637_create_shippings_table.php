@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('shipping', function (Blueprint $table) {
+        Schema::create('shippings', function (Blueprint $table) {
         $table->id();
         $table->unsignedBigInteger('order_id');
-        $table->string('tracking_code')->nullable();
-        $table->string('shipping_provider')->nullable();
-        $table->enum('status', ['pending', 'in_transit', 'delivered', 'failed'])->default('pending');
-        $table->timestamp('updated_at')->nullable();
+        $table->string('tracking_code');
+        $table->string('shipping_provider');
+        $table->string('status')->default('pending');
+        $table->timestamps(); // Tạo created_at và updated_at
 
-        $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+        // Nếu có khóa ngoại:
+        // $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
     });
-
     }
 
     /**

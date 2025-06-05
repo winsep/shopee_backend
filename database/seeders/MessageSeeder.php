@@ -10,8 +10,9 @@ class MessageSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run()
     {
-        //
+        \App\Models\Message::factory()->count(15)->create();
     }
+
 }

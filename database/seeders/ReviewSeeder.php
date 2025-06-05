@@ -10,8 +10,9 @@ class ReviewSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run()
     {
-        //
+        \App\Models\Review::factory()->count(20)->create();
     }
+
 }

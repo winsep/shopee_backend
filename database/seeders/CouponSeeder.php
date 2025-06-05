@@ -10,8 +10,9 @@ class CouponSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run()
     {
-        //
+        \App\Models\Coupon::factory()->count(5)->create();
     }
+
 }

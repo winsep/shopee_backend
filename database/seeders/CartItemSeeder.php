@@ -10,8 +10,9 @@ class CartItemSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run()
     {
-        //
+        \App\Models\CartItem::factory()->count(30)->create();
     }
+
 }
