@@ -21,7 +21,7 @@ class UserFactory extends Factory
             'role' => fake()->randomElement(['buyer', 'seller', 'admin']),
             'address' => fake()->optional()->address(),
             'created_at' => now(),
-            'updated_at' => now(),
+            'updated_at' => now()
         ];
     }
 }
