@@ -7,22 +7,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Category extends Model
 {
-    use HasFactory;
-
     protected $fillable = ['name', 'slug', 'parent_id'];
 
-    public function parent()
-    {
-        return $this->belongsTo(Category::class, 'parent_id');
-    }
-
+    // Danh mục con
     public function children()
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
 
-    public function products()
+    // Danh mục cha
+    public function parent()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsTo(Category::class, 'parent_id');
     }
 }

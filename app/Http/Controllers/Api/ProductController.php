@@ -14,6 +14,30 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
+    public function search(Request $request)
+    {
+        $keyword = $request->input('q');
+
+        if (!$keyword) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Thiếu từ khóa tìm kiếm'
+            ], 400);
+        }
+
+        $products = Product::with('category')
+            ->where('name', 'LIKE', "%$keyword%")
+            ->orWhereHas('category', function ($query) use ($keyword) {
+                $query->where('name', 'LIKE', "%$keyword%");
+            })
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $products
+        ]);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

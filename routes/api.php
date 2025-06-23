@@ -3,6 +3,7 @@
     use App\Http\Controllers\Api\HomeController;
     use App\Http\Controllers\Api\CartItemController;
     use App\Http\Controllers\Api\AuthController;
+    use App\Http\Controllers\Api\ProductController;
 
     Route::prefix('home')->group(function () {
         Route::get('/', [HomeController::class, 'index']);
@@ -20,4 +21,6 @@
     });
 
     Route::post('/login', [AuthController::class, 'login']);
+
+    Route::get('/products/search', [ProductController::class, 'search']);
 ?>
