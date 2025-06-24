@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -47,7 +48,8 @@ class HomeController extends Controller
 
     public function recommendByCategory()
     {
-        //
+        // Trả về tất cả sản phẩm, hoặc giới hạn số lượng
+        return response()->json(Product::paginate(8));
     }
 
     public function getRecommendByCategory()
