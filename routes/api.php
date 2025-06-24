@@ -1,19 +1,9 @@
 <?php
-<<<<<<< HEAD
-=======
     use Illuminate\Support\Facades\Route;   
     use App\Http\Controllers\Api\HomeController;
     use App\Http\Controllers\Api\CartItemController;
     use App\Http\Controllers\Api\AuthController;
     use App\Http\Controllers\Api\ProductController;
->>>>>>> 9f27d7c5905615a33a3bd555e4c3f4b1c3dbbc8d
-
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\Api\HomeController;
-use App\Http\Controllers\Api\CartItemController;
-use App\Http\Controllers\Api\AuthController;
 
 // Product & Review routes
 Route::prefix('products')->group(function () {
@@ -22,9 +12,6 @@ Route::prefix('products')->group(function () {
     Route::get('{id}', [ProductController::class, 'show']);
     Route::put('{id}', [ProductController::class, 'update']);
     Route::delete('{id}', [ProductController::class, 'destroy']);
-
-<<<<<<< HEAD
-    // Reviews
     Route::get('{id}/reviews', [ReviewController::class, 'index']);
     Route::middleware('auth:sanctum')->post('{id}/reviews', [ReviewController::class, 'store']);
 });
@@ -48,9 +35,6 @@ Route::middleware('auth:sanctum')->prefix('cart')->group(function () {
 
 // Auth route
 Route::post('/login', [AuthController::class, 'login']);
-=======
-    Route::post('/login', [AuthController::class, 'login']);
 
-    Route::get('/products/search', [ProductController::class, 'search']);
+Route::get('/products/search', [ProductController::class, 'search']);
 ?>
->>>>>>> 9f27d7c5905615a33a3bd555e4c3f4b1c3dbbc8d
