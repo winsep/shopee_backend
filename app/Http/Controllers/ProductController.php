@@ -3,48 +3,91 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\UpdateProductRequest;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Http\Requests\UpdateProductRequest;
 
 class ProductController extends Controller
 {
-    public function index(Request $request)
-{
-    $query = Product::with(['category', 'reviews']);
-
-    if ($request->filled('search')) {
-        $query->where('name', 'like', '%' . $request->search . '%');
+    public function index()
+    {
+        $products = Product::with(['seller', 'category'])->paginate(10);
+        return view('products.index', compact('products'));
     }
 
-    if ($request->filled('category_id')) {
-        $query->where('category_id', $request->category_id);
+    public function create()
+    {
+        $categories = Category::all();
+        return view('products.create', compact('categories'));
     }
 
-    return response()->json($query->paginate(10));
-}
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'stock' => 'required|integer',
+            'category_id' => 'required|exists:categories,id',
+            'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png',
+        ]);
 
-public function store(StoreProductRequest $request)
-{
-    $product = Product::create($request->validated());
-    return response()->json($product, 201);
-}
+        $thumbnailPath = null;
+        if ($request->hasFile('thumbnail')) {
+            $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
+        }
 
-public function show(Product $product)
-{
-    $product->load(['category', 'reviews']);
-    return response()->json($product);
-}
+        Product::create([
+            'seller_id' => auth()->id(),
+            'category_id' => $request->category_id,
+            'name' => $request->name,
+            'slug' => Str::slug($request->name) . '-' . uniqid(),
+            'description' => $request->description,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'thumbnail' => $thumbnailPath,
+            'status' => $request->status ?? 'active',
+        ]);
 
-public function update(UpdateProductRequest $request, Product $product)
-{
-    $product->update($request->validated());
-    return response()->json($product);
-}
+        return redirect()->route('products.index')->with('success', 'Sản phẩm đã được tạo!');
+    }
 
-public function destroy(Product $product)
-{
-    $product->delete();
-    return response()->json(['message' => 'Deleted']);
-}
+    public function edit(Product $product)
+    {
+        $categories = Category::all();
+        return view('products.edit', compact('product', 'categories'));
+    }
+
+    public function update(UpdateProductRequest $request, Product $product)
+    {
+        $thumbnailPath = $product->thumbnail;
+
+        if ($request->hasFile('thumbnail')) {
+            $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
+        }
+
+        $product->update([
+            'category_id' => $request->category_id,
+            'name' => $request->name,
+            'slug' => Str::slug($request->name) . '-' . uniqid(),
+            'description' => $request->description,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'thumbnail' => $thumbnailPath,
+            'status' => $request->status ?? $product->status,
+        ]);
+
+        return redirect()->route('products.index')->with('success', 'Sản phẩm đã được cập nhật!');
+    }
+
+    public function destroy(Product $product)
+    {
+        if ($product->thumbnail) {
+            \Storage::disk('public')->delete($product->thumbnail);
+        }
+
+        $product->delete();
+
+        return redirect()->route('products.index')->with('success', 'Đã xoá sản phẩm!');
+    }
 }
