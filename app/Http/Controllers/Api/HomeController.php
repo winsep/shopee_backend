@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -14,12 +15,19 @@ class HomeController extends Controller
 
     public function banners()
     {
-        //
+        return response()->json(['message' => 'Banners']);
     }
 
     public function categories()
     {
-        
+        $categories = Category::whereNull('parent_id')
+            ->with('children')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $categories
+        ]);
     }
 
     public function flashSale()
